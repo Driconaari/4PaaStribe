@@ -100,4 +100,16 @@ public void undoMove(int col) {
         }
     }
 }
+
+    public boolean isValidMove(int col) {
+        return col >= 0 && col < COLS && board[0][col] == '-';
+    }
+
+    public char[][] getBoard() {
+        return board;
+    }
+
+    public int getRows() {
+        return ROWS;
+    }
 }
