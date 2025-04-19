@@ -87,4 +87,17 @@ public class ConnectFour {
     public void switchPlayer() {
         currentPlayer = (currentPlayer == 'R') ? 'Y' : 'R';
     }
+
+    public int getCols() {
+    return COLS;
+}
+
+public void undoMove(int col) {
+    for (int row = 0; row < ROWS; row++) {
+        if (board[row][col] != '-') { // Assuming '-' represents an empty cell
+            board[row][col] = '-';
+            break;
+        }
+    }
+}
 }

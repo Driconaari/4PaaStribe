@@ -7,10 +7,10 @@ public class AI {
         int bestMove = -1;
         int bestScore = Integer.MIN_VALUE;
 
-        for (int col = 0; col < ConnectFour.COLS; col++) {
-            if (game.dropPiece(col, 'R')) { // Prøv et træk
+        for (int col = 0; col < game.getCols(); col++) {
+            if (game.dropPiece(col, 'R')) { // Try a move
                 int score = alphaBeta(game, 0, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
-                game.undoMove(col); // Fortryd trækket
+                game.undoMove(col); // Undo the move
 
                 if (score > bestScore) {
                     bestScore = score;
@@ -28,7 +28,7 @@ public class AI {
 
         if (isMaximizing) {
             int maxScore = Integer.MIN_VALUE;
-            for (int col = 0; col < ConnectFour.COLS; col++) {
+            for (int col = 0; col < game.getCols(); col++) {
                 if (game.dropPiece(col, 'R')) {
                     int score = alphaBeta(game, depth + 1, alpha, beta, false);
                     game.undoMove(col);
@@ -40,7 +40,7 @@ public class AI {
             return maxScore;
         } else {
             int minScore = Integer.MAX_VALUE;
-            for (int col = 0; col < ConnectFour.COLS; col++) {
+            for (int col = 0; col < game.getCols(); col++) {
                 if (game.dropPiece(col, 'Y')) {
                     int score = alphaBeta(game, depth + 1, alpha, beta, true);
                     game.undoMove(col);
