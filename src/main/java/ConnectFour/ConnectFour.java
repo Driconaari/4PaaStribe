@@ -3,103 +3,84 @@ package ConnectFour;
 public class ConnectFour {
     private static final int ROWS = 6;
     private static final int COLS = 7;
-    private char[][] board;
-    private char currentPlayer;
+    private final char[][] board;
 
     public ConnectFour() {
         board = new char[ROWS][COLS];
-        currentPlayer = 'R'; // Rød starter
         initializeBoard();
     }
 
     private void initializeBoard() {
-        for (int row = 0; row < ROWS; row++) {
-            for (int col = 0; col < COLS; col++) {
-                board[row][col] = '-';
+        for (int r = 0; r < ROWS; r++) {
+            for (int c = 0; c < COLS; c++) {
+                board[r][c] = '-';
             }
         }
     }
 
     public boolean dropPiece(int col, char player) {
-        if (col < 0 || col >= COLS || board[0][col] != '-') {
-            return false; // Ugyldigt træk
-        }
-        for (int row = ROWS - 1; row >= 0; row--) {
-            if (board[row][col] == '-') {
-                board[row][col] = player;
+        if (col < 0 || col >= COLS || board[0][col] != '-') return false;
+        for (int r = ROWS - 1; r >= 0; r--) {
+            if (board[r][col] == '-') {
+                board[r][col] = player;
                 return true;
             }
         }
         return false;
     }
 
+    public void undoMove(int col) {
+        for (int r = 0; r < ROWS; r++) {
+            if (board[r][col] != '-') {
+                board[r][col] = '-';
+                break;
+            }
+        }
+    }
+
     public boolean checkWin(char player) {
-        // Tjek rækker, kolonner og diagonaler
-        for (int row = 0; row < ROWS; row++) {
-            for (int col = 0; col < COLS; col++) {
-                if (checkDirection(row, col, player, 1, 0) || // Lodret
-                        checkDirection(row, col, player, 0, 1) || // Vandret
-                        checkDirection(row, col, player, 1, 1) || // Diagonal ned mod højre
-                        checkDirection(row, col, player, 1, -1)) { // Diagonal ned mod venstre
-                    return true;
-                }
+        for (int r = 0; r < ROWS; r++) {
+            for (int c = 0; c < COLS; c++) {
+                if (checkDirection(r, c, player, 1, 0) ||
+                        checkDirection(r, c, player, 0, 1) ||
+                        checkDirection(r, c, player, 1, 1) ||
+                        checkDirection(r, c, player, 1, -1)) return true;
             }
         }
         return false;
     }
 
-    private boolean checkDirection(int row, int col, char player, int dRow, int dCol) {
+    private boolean checkDirection(int r, int c, char p, int dr, int dc) {
         int count = 0;
-        while (row >= 0 && row < ROWS && col >= 0 && col < COLS) {
-            if (board[row][col] == player) {
+        while (r >= 0 && r < ROWS && c >= 0 && c < COLS) {
+            if (board[r][c] == p) {
                 count++;
                 if (count == 4) return true;
             } else {
                 count = 0;
             }
-            row += dRow;
-            col += dCol;
+            r += dr;
+            c += dc;
         }
         return false;
     }
 
     public boolean isBoardFull() {
-        for (int col = 0; col < COLS; col++) {
-            if (board[0][col] == '-') return false;
+        for (int c = 0; c < COLS; c++) {
+            if (board[0][c] == '-') return false;
         }
         return true;
     }
 
     public void printBoard() {
-        for (int row = 0; row < ROWS; row++) {
-            for (int col = 0; col < COLS; col++) {
-                System.out.print(board[row][col] + " ");
+        for (char[] row : board) {
+            for (char cell : row) {
+                System.out.print(cell + " ");
             }
             System.out.println();
         }
-        System.out.println("0 1 2 3 4 5 6"); // Kolonneindeks
+        System.out.println("0 1 2 3 4 5 6");
     }
-
-    public char getCurrentPlayer() {
-        return currentPlayer;
-    }
-
-    public void switchPlayer() {
-        currentPlayer = (currentPlayer == 'R') ? 'Y' : 'R';
-    }
-
-    public int getCols() {
-    return COLS;
-}
-
-public void undoMove(int col) {
-    for (int row = 0; row < ROWS; row++) {
-        if (board[row][col] != '-') { // Assuming '-' represents an empty cell
-            board[row][col] = '-';
-            break;
-        }
-    }
-}
 
     public boolean isValidMove(int col) {
         return col >= 0 && col < COLS && board[0][col] == '-';
@@ -111,5 +92,9 @@ public void undoMove(int col) {
 
     public int getRows() {
         return ROWS;
+    }
+
+    public int getCols() {
+        return COLS;
     }
 }
