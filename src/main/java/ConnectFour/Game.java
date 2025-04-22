@@ -21,7 +21,7 @@ public class Game {
         char currentPlayer = playerStarts ? 'Y' : 'R';
 
         while (true) {
-            board.print();
+            board.printBoard();
 
             if (currentPlayer == 'R') {
                 int move = getAIMove();
@@ -32,13 +32,13 @@ public class Game {
             }
 
             if (board.checkWin(currentPlayer)) {
-                board.print();
+                board.printBoard();
                 announceWinner(currentPlayer);
                 break;
             }
 
             if (board.isFull()) {
-                board.print();
+                board.printBoard();
                 System.out.println("\u001B[36mDet er uafgjort!\u001B[0m");
                 break;
             }
