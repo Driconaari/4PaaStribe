@@ -8,7 +8,21 @@ public class AI {
         int bestMove = -1;
         int bestScore = Integer.MIN_VALUE;
 
+        // Start by evaluating the middle column first
+        int middleColumn = board.getCols() / 2;
+        if (board.isValidMove(middleColumn)) {
+            board.dropPiece(middleColumn, 'R');
+            int score = alphaBeta(board, MAX_DEPTH - 1, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
+            board.undoMove(middleColumn);
+            if (score > bestScore) {
+                bestScore = score;
+                bestMove = middleColumn;
+            }
+        }
+
+        // Evaluate the rest of the columns
         for (int col = 0; col < board.getCols(); col++) {
+            if (col == middleColumn) continue; // Skip the middle column as it's already evaluated
             if (board.isValidMove(col)) {
                 board.dropPiece(col, 'R');
                 int score = alphaBeta(board, MAX_DEPTH - 1, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
