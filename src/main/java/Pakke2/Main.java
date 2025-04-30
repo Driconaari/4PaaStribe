@@ -2,31 +2,37 @@ package Pakke2;
 
 public class Main {
     public static void main(String[] args) {
-        Board.initializeBoard(); // Metoden fra Board klassen
+        Board.initializeBoard();
 
         while (true) {
-            Board.displayBoard(); // Metoden fra Board klassen
-            int col = Player.getPlayerMove(); // Metoden fra Player klassen
+            Board.displayBoard();
 
-            int row = Rules.dropPiece(col); // Metoden fra Rules Klassen
+            int col;
+            if (Rules.currentPlayer == 'X') {
+                col = Player.getPlayerMove();
+            } else {
+                col = AI.getBestMove();
+            }
+
+            int row = Rules.dropPiece(col, Rules.currentPlayer);
             if (row == -1) {
                 System.out.println("Kolonnen er fuld. Vælg en anden.");
                 continue;
             }
 
-            if (Rules.checkWin(row, col)) { // Metoden fra Rules klassen
-                Board.displayBoard(); // Metoden fra Board klassen
-                System.out.println("Spiller " + Rules.currentPlayer + " vinder!"); // Metoden fra Rules klassen
+            if (Rules.checkWin(row, col)) {
+                Board.displayBoard();
+                System.out.println("Spiller " + Rules.currentPlayer + " vinder!");
                 break;
             }
 
-            if (Rules.isDraw()) { // Metoden fra Rules klassen
-                Board.displayBoard(); // Metoden fra Board klassen
+            if (Rules.isDraw()) {
+                Board.displayBoard();
                 System.out.println("Spillet ender uafgjort!");
                 break;
             }
 
-            Rules.currentPlayer = (Rules.currentPlayer == 'X') ? 'O' : 'X'; // Metoden fra Rules klassen
+            Rules.currentPlayer = (Rules.currentPlayer == 'X') ? 'O' : 'X';
         }
     }
 }

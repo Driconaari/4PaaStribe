@@ -3,10 +3,10 @@ package Pakke2;
 public class Rules {
     public static char currentPlayer = 'X';
 
-    public static int dropPiece(int col) {
+    public static int dropPiece(int col, char player) {
         for (int r = Board.ROWS - 1; r >= 0; r--) {
             if (Board.board[r][col] == ' ') {
-                Board.board[r][col] = currentPlayer;
+                Board.board[r][col] = player;
                 return r;
             }
         }
@@ -39,5 +39,34 @@ public class Rules {
             if (Board.board[0][c] == ' ') return false;
         }
         return true;
+    }
+
+    // tjek om en bestemt spiller har vundet
+    public static boolean checkWinSimulated(char symbol) {
+        for (int r = 0; r < Board.ROWS; r++) {
+            for (int c = 0; c < Board.COLS; c++) {
+                if (Board.board[r][c] == symbol) {
+                    if ((countPieceSimulated(r, c, 1, 0, symbol) + countPieceSimulated(r, c, -1, 0, symbol) >= 3) ||
+                            (countPieceSimulated(r, c, 0, 1, symbol) + countPieceSimulated(r, c, 0, -1, symbol) >= 3) ||
+                            (countPieceSimulated(r, c, 1, 1, symbol) + countPieceSimulated(r, c, -1, -1, symbol) >= 3) ||
+                            (countPieceSimulated(r, c, 1, -1, symbol) + countPieceSimulated(r, c, -1, 1, symbol) >= 3)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private static int countPieceSimulated(int row, int col, int rowDir, int colDir, char symbol) {
+        int count = 0;
+        int r = row + rowDir;
+        int c = col + colDir;
+        while (r >= 0 && r < Board.ROWS && c >= 0 && c < Board.COLS && Board.board[r][c] == symbol) {
+            count++;
+            r += rowDir;
+            c += colDir;
+        }
+        return count;
     }
 }
