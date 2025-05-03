@@ -3,6 +3,7 @@ package Pakke2;
 public class Main {
     public static void main(String[] args) {
         Board.initializeBoard();
+        Rules.askIfPlayerStarts(); // Spørg om du vil starte
 
         while (true) {
             Board.displayBoard();
