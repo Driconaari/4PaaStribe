@@ -8,12 +8,18 @@ public class Main {
         while (true) {
             Board.displayBoard();
 
+            long startTime = System.currentTimeMillis(); // Start tidtagning
+
             int col;
             if (Rules.currentPlayer == 'X') {
                 col = Player.getPlayerMove();
             } else {
                 col = AI.getBestMove();
             }
+
+            long endTime = System.currentTimeMillis(); // Stop tidtagning
+            long moveTime = endTime - startTime; // Beregn tid brugt på at lave træk
+            System.out.println("Tid brugt på at lave træk: " + moveTime + " ms"); // Udskriv tid brugt på træk
 
             int row = Rules.dropPiece(col, Rules.currentPlayer);
             if (row == -1) {
