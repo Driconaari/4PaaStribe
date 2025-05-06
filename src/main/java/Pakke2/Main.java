@@ -1,9 +1,17 @@
 package Pakke2;
 
+import java.util.Scanner;
+
 public class Main {
+
+    private static long timeLimit; // Tidsgrænse i millisekunder
+
     public static void main(String[] args) {
+
         Board.initializeBoard();
+        askForTimeLimit(); // Spørg om tidsgrænse
         Rules.askIfPlayerStarts(); // Spørg om du vil starte
+
 
         while (true) {
             Board.displayBoard();
@@ -20,6 +28,16 @@ public class Main {
             long endTime = System.currentTimeMillis(); // Stop tidtagning
             long moveTime = endTime - startTime; // Beregn tid brugt på at lave træk
             System.out.println("Tid brugt på at lave træk: " + moveTime + " ms"); // Udskriv tid brugt på træk
+
+            // Kontrollér om trækket overskred tidsgrænsen
+            if (moveTime > timeLimit) {
+                if (Rules.currentPlayer == 'X') {
+                    System.out.println("Modstanderen har overskredet tidsgrænsen!  vores AI vinder!");
+                } else {
+                    System.out.println("Vores AI har overskredet tidsgrænsen!");
+                }
+                break;
+            }
 
             int row = Rules.dropPiece(col, Rules.currentPlayer);
             if (row == -1) {
@@ -41,5 +59,12 @@ public class Main {
 
             Rules.currentPlayer = (Rules.currentPlayer == 'X') ? 'O' : 'X';
         }
+    }
+    private static void askForTimeLimit() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Indtast tidsgrænsen for et træk i sekunder: ");
+        int seconds = scanner.nextInt();
+        timeLimit = seconds * 1000L; // Konverter til millisekunder
+        System.out.println("Tidsgrænsen er sat til " + seconds + " sekunder.");
     }
 }
