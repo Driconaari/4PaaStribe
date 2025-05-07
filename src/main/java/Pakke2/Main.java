@@ -31,12 +31,11 @@ public class Main {
 
             // Kontrollér om trækket overskred tidsgrænsen
             if (moveTime > timeLimit) {
-                if (Rules.currentPlayer == 'X') {
-                    System.out.println("Modstanderen har overskredet tidsgrænsen!  vores AI vinder!");
-                } else {
-                    System.out.println("Vores AI har overskredet tidsgrænsen!");
-                }
-                break;
+                double exceededTime = (moveTime - timeLimit) / 1000.0; // Konverter til sekunder
+                System.out.printf("Spiller %c har overskredet tidsgrænsen med %.2f sekunder! Turen bliver sprunget over.%n",
+                        Rules.currentPlayer, exceededTime);
+                Rules.currentPlayer = (Rules.currentPlayer == 'X') ? 'O' : 'X'; // Skift spiller
+                continue; // Spring til næste iteration af løkken
             }
 
             int row = Rules.dropPiece(col, Rules.currentPlayer);
