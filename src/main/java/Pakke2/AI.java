@@ -3,12 +3,13 @@ package Pakke2;
 public class AI {
 
     private static final int MAX_DEPTH = 5;
+    private static final int[] preferredOrder = {3, 2, 4, 1, 5, 0, 6}; // AI starter fra midten til siderne
 
     public static int getBestMove() {
         int bestScore = Integer.MIN_VALUE;
         int bestCol = -1;
 
-        for (int col = 0; col < Board.COLS; col++) {
+        for (int col : preferredOrder) {
             if (Board.board[0][col] == ' ') {
                 int row = Rules.dropPiece(col, 'O');
                 int score = minimax(0, false, Integer.MIN_VALUE, Integer.MAX_VALUE);
@@ -29,7 +30,7 @@ public class AI {
 
         if (isMaximizing) {
             int maxEval = Integer.MIN_VALUE;
-            for (int col = 0; col < Board.COLS; col++) {
+            for (int col : preferredOrder) {
                 if (Board.board[0][col] == ' ') {
                     int row = Rules.dropPiece(col, 'O');
                     int eval = minimax(depth + 1, false, alpha, beta);
