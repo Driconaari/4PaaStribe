@@ -10,7 +10,7 @@ public class Main {
 
         Board.initializeBoard();
         askForTimeLimit(); // Spørg om tidsgrænse
-        Rules.askIfPlayerStarts(); // Spørg om du vil starte
+        Player.askIfPlayerStarts(); // Spørg om du vil starte
 
 
         while (true) {

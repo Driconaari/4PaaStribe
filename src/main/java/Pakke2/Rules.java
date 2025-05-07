@@ -1,7 +1,5 @@
 package Pakke2;
 
-import java.util.Scanner;
-
 public class Rules {
     public static char currentPlayer = 'X';
 
@@ -71,6 +69,4 @@ public class Rules {
         }
         return count;
     }
-
-
 }

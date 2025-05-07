@@ -21,4 +21,25 @@ public class Player {
             }
         }
     }
+
+    // Spørger spilleren om de vil starte (ja/nej). Du er altid X, AI er altid O.
+    public static void askIfPlayerStarts() {
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.print("Vil du starte? (ja/nej): ");
+            String svar = scanner.nextLine().trim().toLowerCase();
+
+            if (svar.equals("ja")) {
+                Rules.currentPlayer = 'X'; // Spiller starter
+                System.out.println("Du starter som X.");
+                break;
+            } else if (svar.equals("nej")) {
+                Rules.currentPlayer = 'O'; // AI starter
+                System.out.println("AI starter som O.");
+                break;
+            } else {
+                System.out.println("Ugyldigt svar. Skriv 'ja' eller 'nej'.");
+            }
+        }
+    }
 }
