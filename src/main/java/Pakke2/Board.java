@@ -24,8 +24,4 @@ public class Board {
         System.out.println("-----------------------------");
         System.out.println("  0   1   2   3   4   5   6  ");
     }
-    public static void main(String[] args) {
-        initializeBoard();
-        displayBoard();
-    }
 }
