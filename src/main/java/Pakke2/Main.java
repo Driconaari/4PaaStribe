@@ -1,16 +1,12 @@
 package Pakke2;
 
-import java.util.Scanner;
-
 public class Main {
-
-    private static long timeLimit; // Tidsgrænse i millisekunder
 
     public static void main(String[] args) {
 
         Board.initializeBoard();
-        askForTimeLimit(); // Spørg om tidsgrænse
-        Rules.askIfPlayerStarts(); // Spørg om du vil starte
+        Player.askForTimeLimit(); // Spørg om tidsgrænse
+        Player.askIfPlayerStarts(); // Spørg om du vil starte
 
 
         while (true) {
@@ -30,8 +26,8 @@ public class Main {
             System.out.println("Tid brugt på at lave træk: " + moveTime + " ms"); // Udskriv tid brugt på træk
 
             // Kontrollér om trækket overskred tidsgrænsen
-            if (moveTime > timeLimit) {
-                double exceededTime = (moveTime - timeLimit) / 1000.0; // Konverter til sekunder
+            if (moveTime > Player.timeLimit) {
+                double exceededTime = (moveTime - Player.timeLimit) / 1000.0; // Konverter til sekunder
                 System.out.printf("Spiller %c har overskredet tidsgrænsen med %.2f sekunder! Turen bliver sprunget over.%n",
                         Rules.currentPlayer, exceededTime);
                 Rules.currentPlayer = (Rules.currentPlayer == 'X') ? 'O' : 'X'; // Skift spiller
@@ -58,12 +54,5 @@ public class Main {
 
             Rules.currentPlayer = (Rules.currentPlayer == 'X') ? 'O' : 'X';
         }
-    }
-    private static void askForTimeLimit() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Indtast tidsgrænsen for et træk i sekunder: ");
-        int seconds = scanner.nextInt();
-        timeLimit = seconds * 1000L; // Konverter til millisekunder
-        System.out.println("Tidsgrænsen er sat til " + seconds + " sekunder.");
     }
 }
