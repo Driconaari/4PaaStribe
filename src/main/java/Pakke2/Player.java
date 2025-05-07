@@ -3,7 +3,7 @@ package Pakke2;
 import java.util.Scanner;
 
 public class Player {
-
+    public static long timeLimit; // Tidsgrænse i millisekunder
     public static final Scanner scanner = new Scanner(System.in);
 
 
@@ -41,5 +41,13 @@ public class Player {
                 System.out.println("Ugyldigt svar. Skriv 'ja' eller 'nej'.");
             }
         }
+    }
+
+    public static void askForTimeLimit() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Indtast tidsgrænsen for et træk i sekunder: ");
+        int seconds = scanner.nextInt();
+        timeLimit = seconds * 1000L; // Konverter til millisekunder
+        System.out.println("Tidsgrænsen er sat til " + seconds + " sekunder.");
     }
 }
