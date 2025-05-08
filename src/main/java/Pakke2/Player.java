@@ -26,14 +26,14 @@ public class Player {
     public static void askIfPlayerStarts() {
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            System.out.print("Vil du starte? (ja/nej): ");
+            System.out.print("Vil du have at vores AI starter? (ja/nej): ");
             String svar = scanner.nextLine().trim().toLowerCase();
 
-            if (svar.equals("ja")) {
+            if (svar.equals("nej")) {
                 Rules.currentPlayer = 'X'; // Spiller starter
                 System.out.println("Du starter som X.");
                 break;
-            } else if (svar.equals("nej")) {
+            } else if (svar.equals("ja")) {
                 Rules.currentPlayer = 'O'; // AI starter
                 System.out.println("AI starter som O.");
                 break;
