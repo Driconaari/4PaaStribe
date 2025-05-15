@@ -1,4 +1,4 @@
-package Pakke2;
+package firepåstribe;
 
 public class AI {
 

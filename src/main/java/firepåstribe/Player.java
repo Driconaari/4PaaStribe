@@ -1,4 +1,4 @@
-package Pakke2;
+package firepåstribe;
 
 import java.util.Scanner;
 

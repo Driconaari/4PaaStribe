@@ -1,4 +1,4 @@
-package Pakke2;
+package firepåstribe;
 
 public class Rules {
     public static char currentPlayer = 'X';

@@ -1,7 +1,4 @@
-package Pakke2;
-
-import java.util.ArrayList;
-import java.util.List;
+package firepåstribe;
 
 public class Main {
 
