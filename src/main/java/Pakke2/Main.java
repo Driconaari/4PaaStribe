@@ -21,7 +21,7 @@ public class Main {
                 col = Player.getPlayerMove();
             } else {
                 col = AI.getBestMove();
-                System.out.println("AI tog et træk kolonne: " + col);
+                System.out.println("AI tog et træk kolonne: " + col); //viser bare hvilken kolonne AI valgte
             }
 
             long endTime = System.currentTimeMillis(); // Stop tidtagning
