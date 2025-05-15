@@ -2,7 +2,7 @@ package Pakke2;
 
 public class AI {
 
-    private static final int MAX_DEPTH = 5; // Hvor mange træk AI prøver at "se ud i fremtiden". Jo højere jo smarter og langsommere
+    private static final int MAX_DEPTH = 10; // Hvor mange træk AI prøver at "se ud i fremtiden". Jo højere jo smarter og langsommere
     private static final int[] preferredOrder = {3, 2, 4, 1, 5, 0, 6}; // AI starter fra midten til siderne
 
     // AI'ens hovedfunktion

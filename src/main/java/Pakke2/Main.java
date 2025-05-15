@@ -1,5 +1,8 @@
 package Pakke2;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -7,7 +10,6 @@ public class Main {
         Board.initializeBoard();
         Player.askForTimeLimit(); // Spørg om tidsgrænse
         Player.askIfPlayerStarts(); // Spørg om du vil starte
-
 
         while (true) {
             Board.displayBoard();
@@ -19,6 +21,7 @@ public class Main {
                 col = Player.getPlayerMove();
             } else {
                 col = AI.getBestMove();
+                System.out.println("AI tog et træk kolonne: " + col);
             }
 
             long endTime = System.currentTimeMillis(); // Stop tidtagning
@@ -40,6 +43,7 @@ public class Main {
                 continue;
             }
 
+
             if (Rules.checkWin(row, col)) {
                 Board.displayBoard();
                 System.out.println("Spiller " + Rules.currentPlayer + " vinder!");
@@ -54,5 +58,7 @@ public class Main {
 
             Rules.currentPlayer = (Rules.currentPlayer == 'X') ? 'O' : 'X';
         }
+
+
     }
 }
