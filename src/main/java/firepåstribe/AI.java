@@ -28,7 +28,7 @@ public class AI {
     private static int minimax(int depth, boolean isMaximizing, int alpha, int beta) { // Rekursive metode, som AI'en bruger til at tænke fremad og analysere spillet
         if (Rules.checkWinSimulated('O')) return 100 - depth; // Hvis AI har vundet – giv høj score (100), og træk depth fra, så hurtige sejre er bedre
         if (Rules.checkWinSimulated('X')) return -100 + depth; // Hvis spilleren har vundet – dårlig score. AI skal undgå det
-        if (Rules.isDraw() || depth == MAX_DEPTH) return 0; // Hvis det er uafgjort, eller vi har tænkt dybt nok, så returner neutral score (0)
+        if (Rules.isDraw() || depth == MAX_DEPTH) return evaluateBoard(depth); // Hvis det er uafgjort, eller vi har tænkt dybt nok, så returner neutral score (0)
 
         if (isMaximizing) { // AI's tur. Her leder vi efter det bedst mulige træk for AI'en ('O')
             int maxEval = Integer.MIN_VALUE;
@@ -57,5 +57,58 @@ public class AI {
             }
             return minEval;
         }
+    }
+
+    // Evaluering af brættet og heuristisk vurdering af positioner
+    private static int evaluateBoard(int depth) {
+        int score = 0;
+
+        // Gennemgå hele brættet
+        for (int row = 0; row < Board.ROWS; row++) {
+            for (int col = 0; col < Board.COLS; col++) {
+                if (Board.board[row][col] == ' ') continue;
+
+                char current = Board.board[row][col];
+
+                // Vælg multiplikator baseret på spiller
+                int factor = (current == 'O') ? 1 : -1;
+
+                // Adaptive faktor: sen-spil positioner er vigtigere
+                double adaptiveWeight = 1.0 + (MAX_DEPTH - depth) * 0.1;
+
+                // Tjek alle retninger fra denne position
+                score += factor * adaptiveWeight * countAligned(row, col, 1, 0); // vandret
+                score += factor * adaptiveWeight * countAligned(row, col, 0, 1); // lodret
+                score += factor * adaptiveWeight * countAligned(row, col, 1, 1); // skrå ned-højre
+                score += factor * adaptiveWeight * countAligned(row, col, 1, -1); // skrå ned-venstre
+            }
+        }
+
+        return score;
+    }
+
+    private static int countAligned(int row, int col, int dRow, int dCol) {
+        int count = 0;
+        char player = Board.board[row][col];
+
+        // Tæl op til 4 på stribe
+        for (int i = 0; i < 4; i++) {
+            int r = row + i * dRow;
+            int c = col + i * dCol;
+
+            if (r >= Board.ROWS || c >= Board.COLS || r < 0 || c < 0)
+                return 0;
+
+            if (Board.board[r][c] == player) {
+                count++;
+            } else if (Board.board[r][c] != ' ')
+                return 0; // modstander blokkerer
+        }
+
+        if (count == 4) return 100;
+        if (count == 3) return 10;
+        if (count == 2) return 3;
+
+        return 0;
     }
 }
