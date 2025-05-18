@@ -59,6 +59,7 @@ public class AI {
         }
     }
 
+    // Heuristik til at vurdere brættet
     private static int evaluateBoard(char symbol) {
         int score = 0;
         score += countSequences(symbol, 3) * 50; // Beløn 3 på stribe
@@ -69,6 +70,7 @@ public class AI {
         return score;
     }
 
+    // Tæller hvor mange sekvenser der er af længde 'length' for et givet symbol
     private static int countSequences(char symbol, int length) {
         int count = 0;
         for (int r = 0; r < Board.ROWS; r++) {
@@ -84,6 +86,7 @@ public class AI {
         return count;
     }
 
+    // Tjekker om der er en sekvens af længde 'length' i en given retning
     private static boolean checkSequence(int row, int col, int rowDir, int colDir, char symbol, int length) {
         int count = 0;
         for (int i = 1; i < length; i++) {
