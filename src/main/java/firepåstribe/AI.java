@@ -28,7 +28,7 @@ public class AI {
     private static int minimax(int depth, boolean isMaximizing, int alpha, int beta) { // Rekursive metode, som AI'en bruger til at tænke fremad og analysere spillet
         if (Rules.checkWinSimulated('O')) return 100 - depth; // Hvis AI har vundet – giv høj score (100), og træk depth fra, så hurtige sejre er bedre
         if (Rules.checkWinSimulated('X')) return -100 + depth; // Hvis spilleren har vundet – dårlig score. AI skal undgå det
-        if (Rules.isDraw() || depth == MAX_DEPTH) return 0; // Hvis det er uafgjort, eller vi har tænkt dybt nok, så returner neutral score (0)
+        if (Rules.isDraw() || depth == MAX_DEPTH) return evaluateBoard('O') - evaluateBoard('X'); // Hvis det er uafgjort, eller vi har tænkt dybt nok, så returner vi heuristikken
 
         if (isMaximizing) { // AI's tur. Her leder vi efter det bedst mulige træk for AI'en ('O')
             int maxEval = Integer.MIN_VALUE;
@@ -57,5 +57,45 @@ public class AI {
             }
             return minEval;
         }
+    }
+
+    private static int evaluateBoard(char symbol) {
+        int score = 0;
+        score += countSequences(symbol, 3) * 50; // Beløn 3 på stribe
+        score += countSequences(symbol, 2) * 15; // Beløn 2 på stribe
+        for (int r = 0; r < Board.ROWS; r++) {    // Beløn for kontrol af midten
+            if (Board.board[r][3] == symbol) score += 6;
+        }
+        return score;
+    }
+
+    private static int countSequences(char symbol, int length) {
+        int count = 0;
+        for (int r = 0; r < Board.ROWS; r++) {
+            for (int c = 0; c < Board.COLS; c++) {
+                if (Board.board[r][c] == symbol) {
+                    if (checkSequence(r, c, 0, 1, symbol, length)) count++;  // Vandret
+                    if (checkSequence(r, c, 1, 0, symbol, length)) count++;  // Lodret
+                    if (checkSequence(r, c, 1, 1, symbol, length)) count++;  // Diagonal fra venstre op til højre ned
+                    if (checkSequence(r, c, 1, -1, symbol, length)) count++; // Diagonal fra højre op til venstre ned
+                }
+            }
+        }
+        return count;
+    }
+
+    private static boolean checkSequence(int row, int col, int rowDir, int colDir, char symbol, int length) {
+        int count = 0;
+        for (int i = 1; i < length; i++) {
+            int r = row + i * rowDir;
+            int c = col + i * colDir;
+            if (r < 0 || r >= Board.ROWS || c < 0 || c >= Board.COLS) break;
+            if (Board.board[r][c] == symbol) {
+                count++;
+            } else {
+                break;
+            }
+        }
+        return count == length - 1;
     }
 }
